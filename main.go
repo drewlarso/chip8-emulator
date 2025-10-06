@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/drewlarso/chip8-emulator/cpu"
+	"github.com/drewlarso/chip8-emulator/keyboard"
+	"github.com/drewlarso/chip8-emulator/processor"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -21,10 +22,14 @@ func main() {
 
 	screenBuffer[531] = true
 
-	cpu := cpu.CPU{}
+	cpu := processor.Processor{}
 	fmt.Println(cpu)
 
+	kb := keyboard.NewKeyboard()
+
 	for !rl.WindowShouldClose() {
+		kb.Update()
+
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.Black)

@@ -1,6 +1,6 @@
-package cpu
+package processor
 
-type CPU struct {
+type Processor struct {
 	registers     [16]byte
 	indexRegister uint16
 	delayTimer    byte
