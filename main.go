@@ -1,11 +1,18 @@
 package main
 
 import (
+	"fmt"
+
+	"github.com/drewlarso/chip8-emulator/cpu"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+const ScreenWidth int = 64
+const ScreenHeight int = 32
+const WindowScale int = 10
+
 func main() {
-	rl.InitWindow(640, 320, "Chip8 Emulator")
+	rl.InitWindow(int32(ScreenWidth*WindowScale), int32(ScreenHeight*WindowScale), "Chip8 Emulator")
 	defer rl.CloseWindow()
 
 	rl.SetTargetFPS(60)
@@ -13,6 +20,9 @@ func main() {
 	screenBuffer := [64 * 32]bool{}
 
 	screenBuffer[531] = true
+
+	cpu := cpu.CPU{}
+	fmt.Println(cpu)
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
