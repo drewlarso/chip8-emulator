@@ -6,6 +6,10 @@ type Display struct {
 	buffer [64 * 32]bool
 }
 
+func NewDisplay() *Display {
+	return &Display{}
+}
+
 func (d *Display) Clear() {
 	d.buffer = [64 * 32]bool{}
 }

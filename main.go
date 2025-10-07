@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/drewlarso/chip8-emulator/display"
 	"github.com/drewlarso/chip8-emulator/keyboard"
 	"github.com/drewlarso/chip8-emulator/processor"
@@ -19,10 +17,11 @@ func main() {
 	defer rl.CloseWindow()
 	rl.SetTargetFPS(60)
 
-	disp := display.Display{} // disp is the actual value
+	disp := display.NewDisplay()
 	cpu := processor.NewProcessor()
-	fmt.Println(cpu)
-	kb := keyboard.NewKeyboard() // already a pointer to my keyboard struct
+	kb := keyboard.NewKeyboard()
+
+	cpu.LoadROM("roms/logo.ch8")
 
 	disp.Set(532, true)
 
@@ -30,7 +29,7 @@ func main() {
 		kb.Update()
 
 		for range CyclesPerFrame {
-			cpu.Cycle(&disp, kb)
+			cpu.Cycle(disp, kb)
 		}
 
 		cpu.UpdateTimers()
