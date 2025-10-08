@@ -160,7 +160,7 @@ func (p *Processor) Cycle(display *display.Display, keyboard *keyboard.Keyboard)
 			// 8xy4 - ADD Vx, Vy
 			// Set Vx = Vx + Vy, set VF = carry.
 			var value uint16 = uint16(p.registers[x]) + uint16(p.registers[y])
-			if value >= 255 {
+			if value > 255 {
 				p.registers[15] = 1
 			} else {
 				p.registers[15] = 0
@@ -255,7 +255,7 @@ func (p *Processor) Cycle(display *display.Display, keyboard *keyboard.Keyboard)
 
 				index := int(pixelY)*64 + int(pixelX)
 				pixelValue := display.GetPixel(index)
-				if pixelValue != 0 {
+				if pixelValue != 0 && bit != 0 {
 					p.registers[15] = 1
 				}
 				display.Set(index, pixelValue^bit)
@@ -263,15 +263,15 @@ func (p *Processor) Cycle(display *display.Display, keyboard *keyboard.Keyboard)
 		}
 		p.pc += 2
 	case 0xE000:
-		switch instruction & 0x000F {
-		case 0x000E:
+		switch instruction & 0x00FF {
+		case 0x009E:
 			// Ex9E - SKP Vx
 			// Skip next instruction if key with the value of Vx is pressed.
 			if keyboard.IsKeyDown(p.registers[x]) {
 				p.pc += 2
 			}
 			p.pc += 2
-		case 0x0001:
+		case 0x00A1:
 			// ExA1 - SKNP Vx
 			// Skip next instruction if key with the value of Vx is not pressed.
 			if !keyboard.IsKeyDown(p.registers[x]) {
